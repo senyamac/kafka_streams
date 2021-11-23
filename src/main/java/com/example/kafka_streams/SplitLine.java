@@ -10,10 +10,10 @@ import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.Topology;
 
 public class SplitLine {
-  public static String SERVER="localhost:9092";
-  public static String ID_CONFIG="streams-linesplit";
-  public static String INPUT_TOPIC="streams-plaintext-input";
-  public static String OUTPUT_TOPIC="streams-linesplit-output";
+  public static final String SERVER="localhost:9092";
+  public static final String ID_CONFIG="streams-linesplit";
+  public static final String INPUT_TOPIC="streams-plaintext-input";
+  public static final String OUTPUT_TOPIC="streams-linesplit-output";
 
   static Properties getBuilderProperties() {
     Properties props = new Properties();
@@ -52,7 +52,8 @@ public class SplitLine {
     try {
       streams.start();
       latch.await();
-    } catch (Throwable e) {
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
       System.exit(1);
     }
     System.exit(0);

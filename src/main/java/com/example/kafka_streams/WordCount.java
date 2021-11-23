@@ -12,10 +12,10 @@ import org.apache.kafka.streams.Topology;
 import org.apache.kafka.streams.kstream.Produced;
 
 public class WordCount {
-  public static String SERVER="localhost:9092";
-  public static String ID_CONFIG="streams-wordcount";
-  public static String INPUT_TOPIC="streams-plaintext-input";
-  public static String OUTPUT_TOPIC="streams-wordcount-output";
+  public static final String SERVER="localhost:9092";
+  public static final String ID_CONFIG="streams-wordcount";
+  public static final String INPUT_TOPIC="streams-plaintext-input";
+  public static final String OUTPUT_TOPIC="streams-wordcount-output";
 
   static Properties getBuilderProperties() {
     Properties props = new Properties();
@@ -57,7 +57,8 @@ public class WordCount {
     try {
       streams.start();
       latch.await();
-    } catch (Throwable e) {
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
       System.exit(1);
     }
     System.exit(0);
